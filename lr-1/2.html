@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ua">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LR 1</title>
+
+    <style>
+      * {
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+
+    <script>
+      const products = [
+        {
+          name: "Абрикос",
+          qty: 23,
+          cost: 59.99,
+        },
+        {
+          name: "Ананас",
+          qty: 12,
+          cost: 101,
+        },
+        {
+          name: "Авокадо",
+          qty: 34,
+          cost: 34.5,
+        },
+      ]
+
+      function search(name) {
+        const res = products.filter(
+          (e) => e.name.toLowerCase() === name.toLowerCase()
+        )
+
+        return res[0]
+      }
+
+      function sumProducts(arr) {
+        let totalQty = 0
+        let totalCost = 0
+
+        arr.forEach((e) => {
+          totalQty += e.qty
+          totalCost += e.cost
+        })
+
+        return {
+          totalQty,
+          totalCost,
+        }
+      }
+
+      function handleSearchButtonClick() {
+        event.preventDefault()
+
+        const qtyOutput = form.i2
+        const costOutput = form.i3
+        const reqName = form.i1.value || ""
+
+        const res = search(reqName)
+
+        qtyOutput.value = res.qty
+        costOutput.value = res.cost
+      }
+
+      function handleSumButtonClick() {
+        event.preventDefault()
+
+        const qtyOutput = form.i2
+        const costOutput = form.i3
+
+        const res = sumProducts(products)
+
+        qtyOutput.value = res.totalQty
+        costOutput.value = res.totalCost
+      }
+
+      function handleSelectChange() {
+        const value = s1.value
+        const qtyOutput = form.i2
+        const costOutput = form.i3
+
+        const res = search(value)
+
+        qtyOutput.value = res.qty
+        costOutput.value = res.cost
+      }
+    </script>
+  </head>
+  <body>
+    <form id="form">
+      <input id="i1" type="text" placeholder="Товар" />
+      <select id="s1" onchange="handleSelectChange()">
+        <option value="Абрикос">Абрикос</option>
+        <option value="Ананас">Ананас</option>
+        <option value="Авокадо">Авокадо</option>
+      </select>
+      <button onclick="handleSearchButtonClick()">
+        Наявна кількість і вартість
+      </button>
+      <button onclick="handleSumButtonClick()">Загальна сума</button>
+
+      <input id="i2" type="number" placeholder="Кількість" disabled />
+      <input id="i3" type="number" placeholder="Сума" disabled />
+    </form>
+  </body>
+</html>

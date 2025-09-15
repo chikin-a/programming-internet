@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ua">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LR 1</title>
+
+    <style>
+      * {
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+
+    <script language="JavaScript">
+      function calculation() {
+        let x = 10
+        let y = 5
+        let z = 5
+        let result = (x * z) / y
+        alert(result)
+      }
+
+      function handleChange() {
+        form3.input32.value = "Змінено"
+      }
+
+      function handleSelect() {
+        form3.input32.value = "Вибрано"
+      }
+
+      function calc4() {
+        const x = +form4.input41.value || 0
+        const y = +form4.input42.value || 0
+        let result = 0
+
+        if (x !== y) {
+          result = 10 * x + y
+        } else if (Math.pow(y, 2) !== 2 * x * y || y < 0) {
+          result = 2 * x * y + (4 * x) / y
+        } else {
+          result = x + Math.pow(y, 2)
+        }
+
+        form4.input43.value = result
+      }
+
+      function factorial(n) {
+        if (n === 0 || n === 1) return 1
+        let result = 1
+        for (let i = 2; i <= n; i++) {
+          result *= i
+        }
+        return result
+      }
+
+      function computeSum(x, y) {
+        let sum = 0
+        for (let i = 2; i <= 7; i++) {
+          let numerator = 0.85 * i + (x * y) / (1 + x * x)
+          let denominator = factorial(i)
+          sum += Math.pow(-1, i + 1) * (numerator / denominator)
+        }
+        return sum
+      }
+
+      function calc5() {
+        const x = +form5.input51.value || 0
+        const y = +form5.input52.value || 0
+
+        form5.input53.value = computeSum(x, y)
+      }
+
+      console.log()
+    </script>
+  </head>
+  <body>
+    <h3>Завдання 1.</h3>
+    <p>Це звичайний HTML абзац.</p>
+    <script language="JavaScript">
+      document.write(
+        "Привіт! Мене звати Чікін Антон Іванович, студент групи ІПЗ-23"
+      )
+    </script>
+    <p>Знову звичайний HTML абзац.</p>
+    <form>
+      <input
+        type="button"
+        value="Click me"
+        onClick="alert('Я народився 03.02.2005 року в місті Івано-Франківськ')"
+      />
+    </form>
+
+    <h3>Завдання 2.</h3>
+    <form>
+      <input type="button" value="Calculate" onClick="calculation()" />
+    </form>
+
+    <h3>Завдання 3.</h3>
+    <form id="form3">
+      <input
+        id="input31"
+        type="text"
+        onchange="handleChange()"
+        onselect="handleSelect()"
+      />
+      <input id="input32" type="text" disabled />
+    </form>
+
+    <h3>Завдання 4.</h3>
+    <form id="form4">
+      <input id="input41" placeholder="X" onchange="calc4()" type="number" />
+      <input id="input42" placeholder="Y" onchange="calc4()" type="number" />
+      <input id="input43" type="number" disabled />
+    </form>
+
+    <h3>Завдання 5.</h3>
+    <form id="form5">
+      <input id="input51" type="number" placeholder="X" onchange="calc5()" />
+      <input id="input52" type="number" placeholder="Y" onchange="calc5()" />
+      <input id="input53" type="number" disabled />
+    </form>
+
+    <h3>Завдання 6.</h3>
+    <form>
+      
+    </form>
+  </body>
+</html>
