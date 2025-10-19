@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAB 2</title>
+
+    <style>
+      * {
+        font-family: sans-serif;
+      }
+
+      .calculator {
+        border: 1px solid #ccc;
+        overflow: hidden;
+        width: 300px;
+      }
+
+      #display {
+        width: 100%;
+        height: 60px;
+        border: none;
+        text-align: right;
+        padding: 20px;
+        font-size: 2rem;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        color: rgb(0, 0, 0);
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+      }
+
+      .buttons button {
+        border: none;
+        padding: 20px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        background-color: #e0e0e0;
+      }
+
+      .clear {
+        grid-column: span 2;
+      }
+
+      .equals {
+        grid-column: span 2;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      #main_div table td {
+        border: 1px solid #aaa;
+        padding: 5px;
+        text-align: center;
+      }
+      input[type="text"] {
+        width: 70px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 4px;
+        border-radius: 4px;
+      }
+
+      #main_form > table td {
+        border: none;
+        padding: 5px;
+      }
+      input[type="button"] {
+        margin-top: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+        border: none;
+      }
+
+      #result_div {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Завдання №1</h1>
+    <form name="clockForm">
+      Дата і час:
+      <input type="text" name="datetime" size="25" value="" />
+    </form>
+
+    <h1>Завдання №2</h1>
+    <div class="calculator">
+      <input type="text" id="display" readonly />
+
+      <div class="buttons">
+        <button onclick="clearDisplay()" class="clear">C</button>
+        <button onclick="appendToDisplay('/')" class="operator">/</button>
+        <button onclick="appendToDisplay('*')" class="operator">*</button>
+
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('-')" class="operator">-</button>
+
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('+')" class="operator">+</button>
+
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('.')">.</button>
+
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="calculateResult()" class="equals">=</button>
+      </div>
+    </div>
+
+    <h1>Завдання №3</h1>
+    <form id="main_form" onsubmit="return false;">
+      <table>
+        <tr>
+          <td>Кількість рядків:</td>
+          <td><input type="text" id="t_str" value="5" /></td>
+        </tr>
+        <tr>
+          <td>Кількість стовпців:</td>
+          <td><input type="text" id="t_stb" value="5" /></td>
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="button"
+              onClick="buildTable();"
+              value="Побудувати матрицю"
+            />
+          </td>
+          <td>
+            <input
+              type="button"
+              onClick="calculateColumnSum();"
+              value="Розрахувати суму 3-го стовпця"
+            />
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <div id="main_div"></div>
+
+    <div id="result_div"></div>
+  </body>
+
+  <script defer>
+    // 1
+    function clock() {
+      const now = new Date()
+
+      const year = now.getFullYear()
+      const month = now.getMonth() + 1
+      const day = now.getDate()
+      const hours = now.getHours()
+      const minutes = now.getMinutes()
+      const seconds = now.getSeconds()
+
+      const pMonth = String(month).padStart(2, "0")
+      const pDay = String(day).padStart(2, "0")
+      const pHours = String(hours).padStart(2, "0")
+      const pMinutes = String(minutes).padStart(2, "0")
+      const pSeconds = String(seconds).padStart(2, "0")
+
+      const formattedString = `${year}#${pMonth}#${pDay}-${pHours}#${pMinutes}#${pSeconds}`
+
+      document.clockForm.datetime.value = formattedString
+
+      setTimeout(clock, 1000)
+    }
+    clock()
+
+    // 2
+    const display = document.getElementById("display")
+    function appendToDisplay(value) {
+      display.value += value
+    }
+
+    function clearDisplay() {
+      display.value = ""
+    }
+
+    function calculateResult() {
+      try {
+        const result = eval(display.value)
+        if (!isFinite(result)) {
+          display.value = "Помилка"
+        } else {
+          display.value = result
+        }
+      } catch (error) {
+        display.value = "Помилка"
+      }
+    }
+
+    // 3
+    let str
+    let stb
+    function buildTable() {
+      str = parseInt(document.getElementById("t_str").value)
+      stb = parseInt(document.getElementById("t_stb").value)
+
+      if (isNaN(str) || isNaN(stb) || str <= 0 || stb <= 0) {
+        alert(
+          "Будь ласка, введіть коректні додатні числа для рядків та стовпців."
+        )
+        return
+      }
+
+      let res_str = "<table>\n"
+      for (let i = 1; i <= str; i++) {
+        res_str += "<tr>\n"
+        for (let j = 1; j <= stb; j++) {
+          let value = 11 * i - j
+
+          res_str += "<td>"
+          res_str += `<input type="text" id="_${i}_${j}" value="${value}" readonly>`
+          res_str += "<\/td>\n"
+        }
+        res_str += "<\/tr>\n"
+      }
+      res_str += "<\/table>"
+
+      document.getElementById("main_div").innerHTML = res_str
+      document.getElementById("result_div").innerHTML = ""
+    }
+
+    function calculateColumnSum() {
+      if (!str || !stb) {
+        alert("Спочатку побудуйте матрицю!")
+        return
+      }
+
+      if (stb < 3) {
+        let errorMsg =
+          "У матриці менше трьох стовпців. Неможливо підрахувати суму."
+        alert(errorMsg)
+        document.getElementById("result_div").innerHTML = errorMsg
+        return
+      }
+
+      let sum = 0
+      const columnIndex = 3
+
+      for (let i = 1; i <= str; i++) {
+        let elementId = `_${i}_${columnIndex}`
+
+        let element = document.getElementById(elementId)
+
+        if (element && element.value) {
+          sum += parseInt(element.value, 10)
+        }
+      }
+
+      let resultText = `Сума елементів 3-го стовпця: ${sum}`
+      document.getElementById("result_div").innerHTML = resultText
+    }
+
+    // 4
+    let a = 17
+    let b = 5
+    let c = 20
+    let d = 4
+    let mainArray = ["Audi", "BMW", "Mercedes"]
+
+    let remainder1 = a % b
+    let remainder2 = c % d
+
+    console.log("Остача від ділення " + a + " на " + b + " = " + remainder1)
+    console.log("Остача від ділення", c, "на", d, "=", remainder2)
+
+    console.log("\n==================================================\n\n")
+
+    let isDivisible1 = a % b === 0
+    let isDivisible2 = c % d === 0
+
+    console.log(
+      `Чи ділиться ${a} на ${b} без остачі? (${a} % ${b} === 0) -> ${isDivisible1}`,
+      "\n" +
+        `Чи ділиться ${c} на ${d} без остачі? (${c} % ${d} === 0) -> ${isDivisible2}`
+    )
+
+    console.log("\n==================================================\n\n")
+
+    let prices = [45000, 52000, 48000]
+
+    console.log("Марка: %s, Ціна: %d USD", mainArray[0], prices[0])
+    console.log("Марка: %s, Ціна: %d USD", mainArray[1], prices[1])
+    console.log("Марка: %s, Ціна: %d USD", mainArray[2], prices[2])
+
+    // 5
+    let personObject = {
+      firstName: "Іван",
+      lastName: "Франко",
+      birthYear: 1856,
+      poetry: ["Каменярі", "Мойсей"],
+    }
+    let sampleElement = document.getElementById("demoDiv")
+
+    console.log("\n--- 1. Рівні логування ---")
+    console.info("Інформаційне повідомлення (info).")
+    console.warn("Попередження (warn).")
+    console.error("Повідомлення про помилку (error).")
+
+    console.log("\n--- 2. Інспектування об'єктів та DOM ---")
+    console.log(personObject)
+    console.dir(personObject)
+    console.log(sampleElement)
+    console.dir(sampleElement)
+    console.dirxml(sampleElement)
+
+    console.log("\n--- 3. Вимірювання часу ---")
+    console.time("Loop_Timer")
+
+    let loopTotal = 0
+    for (let i = 0; i < 1000000; i++) {
+      loopTotal += i
+    }
+
+    console.timeEnd("Loop_Timer")
+
+    console.log("\n--- 4. Профілювання (Застарілий метод) ---")
+    console.warn("console.profile() та console.profileEnd() є застарілими.")
+
+    console.log("\n--- 5. Умовне логування ---")
+
+    let valX = 10
+    let valY = 5
+
+    console.assert(valX > valY, "Помилка: 'valX' не більше 'valY'")
+
+    console.assert(
+      valX < valY,
+      "Помилка твердження: 'valX' має бути менше 'valY'"
+    )
+  </script>
+</html>

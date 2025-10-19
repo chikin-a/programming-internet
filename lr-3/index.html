@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LR 3</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        padding: 20px;
+        background-color: #f4f7f6;
+        color: #333;
+      }
+
+      .tab-container {
+        display: flex;
+        border-bottom: 2px solid #ccc;
+        margin-bottom: 20px;
+      }
+      .tab {
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 16px;
+        background-color: #e9e9e9;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        margin-right: 5px;
+        position: relative;
+        bottom: -2px;
+      }
+      .tab:hover {
+        background-color: #f1f1f1;
+      }
+      .tab.active {
+        background-color: #fff;
+        border-bottom: 2px solid #fff;
+        font-weight: bold;
+        color: #0056b3;
+      }
+      .tab-content {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-top: none;
+        background-color: #fff;
+        border-radius: 0 0 8px 8px;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      h2 {
+        border-bottom: 2px solid #eee;
+        padding-bottom: 5px;
+      }
+      input[type="number"],
+      input[type="text"],
+      textarea {
+        font-size: 16px;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        font-size: 16px;
+        padding: 10px 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        background-color: #0275d8;
+        margin: 5px 0;
+      }
+      button:hover {
+        background-color: #025aa5;
+      }
+      button:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+      }
+
+      #result1 {
+        font-weight: bold;
+        color: #0056b3;
+      }
+
+      .keyboard-area textarea {
+        width: 100%;
+        max-width: 600px;
+        height: 150px;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      #keyboard2,
+      #keyboard3 {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        max-width: 600px;
+      }
+      .keyboard-row {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+      }
+      .key {
+        font-size: 16px;
+        padding: 10px 15px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        flex: 1;
+        min-width: 40px;
+        text-align: center;
+        color: #333;
+      }
+      .key:hover {
+        background-color: #e9e9e9;
+      }
+      #clearButton2,
+      #clearButton3 {
+        background-color: #d9534f;
+        color: white;
+        margin-right: 10px;
+      }
+      #clearButton2:hover,
+      #clearButton3:hover {
+        background-color: #c9302c;
+      }
+
+      #image-container4 {
+        margin: 20px auto;
+        border: 2px solid #ccc;
+        padding: 10px;
+        width: 500px;
+        height: 300px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      #galleryImage4 {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .nav-button4 {
+        margin: 0 10px;
+      }
+
+      #task-container5 {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+      }
+      #problem5 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+      }
+      #answerInput5 {
+        width: 100px;
+        margin-right: 10px;
+      }
+      #checkButton5 {
+        background-color: #5cb85c;
+      }
+      #checkButton5:hover {
+        background-color: #4cae4c;
+      }
+      #feedback5 {
+        font-size: 18px;
+        margin-top: 15px;
+        min-height: 25px;
+      }
+      #feedback5.correct {
+        color: green;
+      }
+      #feedback5.error {
+        color: red;
+      }
+      #score5 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .toggle6 {
+        cursor: pointer;
+        user-select: none;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .toggle6::before {
+        content: "▶ ";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+        transition: transform 0.2s;
+      }
+      .toggle6.open::before {
+        transform: rotate(90deg);
+      }
+      .nested6 {
+        display: none;
+        list-style-type: circle;
+        margin-left: 20px;
+      }
+      .nested6.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tab-container">
+      <div class="tab active" onclick="showTab(event, 'task1')">Завдання 1</div>
+      <div class="tab" onclick="showTab(event, 'task2')">Завдання 2</div>
+      <div class="tab" onclick="showTab(event, 'task3')">Завдання 3</div>
+      <div class="tab" onclick="showTab(event, 'task4')">Завдання 4</div>
+      <div class="tab" onclick="showTab(event, 'task5')">Завдання 5</div>
+      <div class="tab" onclick="showTab(event, 'task6')">Завдання 6</div>
+    </div>
+
+    <div id="task1" class="tab-content active">
+      <h2>Розрахунок площі квадрата</h2>
+      <label for="sideInput1">Введіть довжину сторони:</label>
+      <input type="number" id="sideInput1" placeholder="0" />
+      <p>Площа квадрата: <span id="result1">0</span></p>
+    </div>
+
+    <div id="task2" class="tab-content keyboard-area">
+      <h2>Екранна клавіатура (Українська)</h2>
+      <textarea
+        id="outputArea2"
+        placeholder="Текст з'явиться тут..."
+      ></textarea>
+      <div id="keyboard2"></div>
+      <button id="clearButton2">Очистити поле</button>
+    </div>
+
+    <div id="task3" class="tab-content keyboard-area">
+      <h2>Екранна клавіатура (UA/EN)</h2>
+      <textarea
+        id="outputArea3"
+        placeholder="Текст з'явиться тут..."
+      ></textarea>
+      <div id="keyboard3"></div>
+      <button id="clearButton3">Очистити поле</button>
+      <button id="toggleLayoutButton3">Alt+Shift</button>
+    </div>
+
+    <div id="task4" class="tab-content">
+      <h2>Переглядач зображень</h2>
+      <div id="image-container4">
+        <img id="galleryImage4" src="" alt="Gallery Image" />
+      </div>
+      <button id="prevButton4" class="nav-button4">Назад</button>
+      <button id="nextButton4" class="nav-button4">Вперед</button>
+    </div>
+
+    <div id="task5" class="tab-content">
+      <h2>Тест з арифметики</h2>
+      <div id="task-container5">
+        <p>Розв'яжіть приклад:</p>
+        <span id="problem5">...</span>
+        <input type="number" id="answerInput5" />
+        <button id="checkButton5">Перевірити</button>
+        <button id="nextButton5">Наступне завдання</button>
+        <p id="feedback5"></p>
+        <p id="score5">Рахунок: 0 / 0 (Всього 5)</p>
+      </div>
+    </div>
+
+    <div id="task6" class="tab-content">
+      <h2>Ієрархія продуктів</h2>
+      <ul id="myTree6">
+        <li>
+          <span class="toggle6">fruits</span>
+          <ul class="nested6">
+            <li>apple</li>
+            <li>pineapple</li>
+            <li>apricot</li>
+            <li>pear</li>
+            <li>lemon</li>
+          </ul>
+        </li>
+        <li>
+          <span class="toggle6">vegetables</span>
+          <ul class="nested6">
+            <li>potatoes</li>
+            <li>beetroot</li>
+            <li>carrots</li>
+            <li>pear</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      function showTab(event, tabId) {
+        let i, tabcontent, tablinks
+
+        tabcontent = document.getElementsByClassName("tab-content")
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none"
+        }
+
+        tablinks = document.getElementsByClassName("tab")
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "")
+        }
+
+        document.getElementById(tabId).style.display = "block"
+        event.currentTarget.className += " active"
+      }
+
+      // --- Завдання 1 ---
+      ;(function () {
+        const sideInput = document.getElementById("sideInput1")
+        const resultSpan = document.getElementById("result1")
+
+        sideInput.addEventListener("input", function () {
+          const side = parseFloat(this.value)
+          if (!isNaN(side) && side > 0) {
+            const area = side * side
+            resultSpan.textContent = area
+          } else {
+            resultSpan.textContent = 0
+          }
+        })
+      })()
+
+      // --- Завдання 2 ---
+      ;(function () {
+        const outputArea = document.getElementById("outputArea2")
+        const keyboardContainer = document.getElementById("keyboard2")
+        const clearButton = document.getElementById("clearButton2")
+
+        const keys = {
+          numbers: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+          row1: ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ї"],
+          row2: ["ф", "і", "в", "а", "п", "р", "о", "л", "д", "ж", "є"],
+          row3: ["я", "ч", "с", "м", "и", "т", "ь", "б", "ю"],
+        }
+
+        function createKeyboardRow(keyArray) {
+          const rowDiv = document.createElement("div")
+          rowDiv.className = "keyboard-row"
+
+          keyArray.forEach((key) => {
+            const button = document.createElement("button")
+            button.className = "key"
+            button.textContent = key
+            rowDiv.appendChild(button)
+          })
+
+          return rowDiv
+        }
+
+        keyboardContainer.appendChild(createKeyboardRow(keys.numbers))
+        keyboardContainer.appendChild(createKeyboardRow(keys.row1))
+        keyboardContainer.appendChild(createKeyboardRow(keys.row2))
+        keyboardContainer.appendChild(createKeyboardRow(keys.row3))
+
+        keyboardContainer.addEventListener("click", function (event) {
+          if (event.target.classList.contains("key")) {
+            outputArea.value += event.target.textContent
+          }
+        })
+
+        clearButton.addEventListener("click", function () {
+          outputArea.value = ""
+        })
+      })()
+
+      // --- Завдання 3 ---
+      ;(function () {
+        const outputArea = document.getElementById("outputArea3")
+        const keyboardContainer = document.getElementById("keyboard3")
+        const clearButton = document.getElementById("clearButton3")
+        const toggleLayoutButton = document.getElementById(
+          "toggleLayoutButton3"
+        )
+
+        const layouts = {
+          ukr: {
+            numbers: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+            row1: ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ї"],
+            row2: ["ф", "і", "в", "а", "п", "р", "о", "л", "д", "ж", "є"],
+            row3: ["я", "ч", "с", "м", "и", "т", "ь", "б", "ю"],
+          },
+          eng: {
+            numbers: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+            row1: ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]"],
+            row2: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
+            row3: ["z", "x", "c", "v", "b", "n", "m", ",", "."],
+          },
+        }
+
+        let currentLayout = "ukr"
+
+        function createKeyboardRow(keyArray) {
+          const rowDiv = document.createElement("div")
+          rowDiv.className = "keyboard-row"
+          keyArray.forEach((key) => {
+            const button = document.createElement("button")
+            button.className = "key"
+            button.textContent = key
+            rowDiv.appendChild(button)
+          })
+          return rowDiv
+        }
+
+        function renderKeyboard() {
+          keyboardContainer.innerHTML = ""
+          const layout = layouts[currentLayout]
+
+          keyboardContainer.appendChild(createKeyboardRow(layout.numbers))
+          keyboardContainer.appendChild(createKeyboardRow(layout.row1))
+          keyboardContainer.appendChild(createKeyboardRow(layout.row2))
+          keyboardContainer.appendChild(createKeyboardRow(layout.row3))
+        }
+
+        keyboardContainer.addEventListener("click", function (event) {
+          if (event.target.classList.contains("key")) {
+            outputArea.value += event.target.textContent
+          }
+        })
+
+        clearButton.addEventListener("click", function () {
+          outputArea.value = ""
+        })
+
+        toggleLayoutButton.addEventListener("click", function () {
+          currentLayout = currentLayout === "ukr" ? "eng" : "ukr"
+          renderKeyboard()
+        })
+
+        renderKeyboard()
+      })()
+
+      // --- Завдання 4 ---
+      ;(function () {
+        const imageFiles = [
+          "https://placehold.co/500x300/3498db/white?text=Зображення+1",
+          "https://placehold.co/500x300/e74c3c/white?text=Зображення+2",
+          "https://placehold.co/500x300/2ecc71/white?text=Зображення+3",
+          "https://placehold.co/500x300/f39c12/white?text=Зображення+4",
+        ]
+
+        const galleryImage = document.getElementById("galleryImage4")
+        const prevButton = document.getElementById("prevButton4")
+        const nextButton = document.getElementById("nextButton4")
+
+        let currentIndex = 0
+
+        function showImage(index) {
+          galleryImage.src = imageFiles[index]
+          galleryImage.alt = `Зображення ${index + 1}`
+        }
+
+        nextButton.addEventListener("click", function () {
+          currentIndex = (currentIndex + 1) % imageFiles.length
+          showImage(currentIndex)
+        })
+
+        prevButton.addEventListener("click", function () {
+          currentIndex =
+            (currentIndex - 1 + imageFiles.length) % imageFiles.length
+          showImage(currentIndex)
+        })
+
+        showImage(currentIndex)
+      })()
+
+      // --- Завдання 5 ---
+      ;(function () {
+        const problemEl = document.getElementById("problem5")
+        const answerInput = document.getElementById("answerInput5")
+        const checkButton = document.getElementById("checkButton5")
+        const nextButton = document.getElementById("nextButton5")
+        const feedbackEl = document.getElementById("feedback5")
+        const scoreEl = document.getElementById("score5")
+
+        let score = 0
+        let totalQuestions = 0
+        const maxQuestions = 5
+        let currentCorrectAnswer
+
+        function getRandomInt(max) {
+          return Math.floor(Math.random() * (max + 1))
+        }
+
+        function generateProblem() {
+          if (totalQuestions >= maxQuestions) {
+            problemEl.textContent = "Тест завершено!"
+            answerInput.disabled = true
+            checkButton.disabled = true
+            nextButton.disabled = true
+            feedbackEl.textContent = `Ваш фінальний рахунок: ${score} з ${maxQuestions}`
+            return
+          }
+
+          totalQuestions++
+          const operations = ["+", "-", "*", "/"]
+          let num1 = getRandomInt(9)
+          let num2 = getRandomInt(9)
+          const op = operations[getRandomInt(3)]
+
+          switch (op) {
+            case "-":
+              if (num1 < num2) {
+                ;[num1, num2] = [num2, num1]
+              }
+              currentCorrectAnswer = num1 - num2
+              break
+            case "/":
+              if (num2 === 0) {
+                num2 = getRandomInt(8) + 1
+              }
+              const multiplier = getRandomInt(9)
+              num1 = num2 * multiplier
+              currentCorrectAnswer = multiplier
+              break
+            case "+":
+              currentCorrectAnswer = num1 + num2
+              break
+            case "*":
+              currentCorrectAnswer = num1 * num2
+              break
+          }
+
+          problemEl.textContent = `${num1} ${op} ${num2} = ?`
+          feedbackEl.textContent = ""
+          feedbackEl.className = ""
+          answerInput.value = ""
+          answerInput.disabled = false
+          checkButton.disabled = false
+          nextButton.disabled = true
+
+          updateScoreDisplay()
+        }
+
+        function checkAnswer() {
+          const userAnswer = parseFloat(answerInput.value)
+
+          if (isNaN(userAnswer)) {
+            feedbackEl.textContent = "Будь ласка, введіть число."
+            feedbackEl.className = "error"
+            return
+          }
+
+          if (userAnswer === currentCorrectAnswer) {
+            feedbackEl.textContent = "Правильно!"
+            feedbackEl.className = "correct"
+            score++
+          } else {
+            feedbackEl.textContent = `Помилка, правильна відповідь: ${currentCorrectAnswer}`
+            feedbackEl.className = "error"
+          }
+
+          checkButton.disabled = true
+          answerInput.disabled = true
+          if (totalQuestions < maxQuestions) {
+            nextButton.disabled = false
+          } else {
+            generateProblem()
+          }
+
+          updateScoreDisplay()
+        }
+
+        function updateScoreDisplay() {
+          scoreEl.textContent = `Рахунок: ${score} / ${totalQuestions} (Всього ${maxQuestions})`
+        }
+
+        checkButton.addEventListener("click", checkAnswer)
+        nextButton.addEventListener("click", generateProblem)
+
+        generateProblem()
+      })()
+
+      // --- Завдання 6 ---
+      ;(function () {
+        const toggles = document.querySelectorAll(".toggle6")
+
+        toggles.forEach((toggle) => {
+          toggle.addEventListener("click", function () {
+            this.classList.toggle("open")
+            const nestedList = this.nextElementSibling
+
+            if (nestedList && nestedList.classList.contains("nested6")) {
+              nestedList.classList.toggle("active")
+            }
+          })
+        })
+      })()
+    </script>
+  </body>
+</html>

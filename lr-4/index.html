@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LR 4</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      #test-form {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+      }
+      .question-block {
+        margin-bottom: 25px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        background-color: #fafafa;
+      }
+      .question-block p {
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-top: 0;
+      }
+      .question-block div {
+        margin-bottom: 5px;
+      }
+      .question-block label {
+        margin-left: 8px;
+        cursor: pointer;
+      }
+      .question-block select,
+      .question-block input[type="text"] {
+        padding: 8px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 90%;
+        max-width: 400px;
+      }
+      .question-block select[multiple] {
+        height: 100px;
+      }
+      #submit-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #submit-btn:hover {
+        background-color: #0056b3;
+      }
+      #results-container {
+        margin-top: 30px;
+      }
+      #results-container h2 {
+        color: #333;
+      }
+      #results-container h3 {
+        text-align: right;
+        font-size: 1.3em;
+        color: #0056b3;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="test-form">
+      <div class="question-block">
+        <p>1. Столиця України?</p>
+        <div>
+          <input type="radio" name="q1" value="1" id="q1a" /><label for="q1a"
+            >Київ</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q1" value="0" id="q1b" /><label for="q1b"
+            >Львів</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q1" value="0" id="q1c" /><label for="q1c"
+            >Одеса</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q1" value="0" id="q1d" /><label for="q1d"
+            >Харків</label
+          >
+        </div>
+      </div>
+
+      <div class="question-block">
+        <p>2. 2 + 2 = ?</p>
+        <div>
+          <input type="radio" name="q2" value="0" id="q2a" /><label for="q2a"
+            >3</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q2" value="1" id="q2b" /><label for="q2b"
+            >4</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q2" value="0" id="q2c" /><label for="q2c"
+            >5</label
+          >
+        </div>
+        <div>
+          <input type="radio" name="q2" value="0" id="q2d" /><label for="q2d"
+            >6</label
+          >
+        </div>
+      </div>
+
+      <div class="question-block">
+        <p>3. Які з цих тварин є ссавцями? (Оберіть 2)</p>
+        <div>
+          <input type="checkbox" name="q3" value="1" id="q3a" /><label for="q3a"
+            >Кіт</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q3" value="0" id="q3b" /><label for="q3b"
+            >Крокодил</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q3" value="1" id="q3c" /><label for="q3c"
+            >Собака</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q3" value="0" id="q3d" /><label for="q3d"
+            >Пташка</label
+          >
+        </div>
+      </div>
+
+      <div class="question-block">
+        <p>4. Які з цих мов є мовами програмування? (Оберіть 2)</p>
+        <div>
+          <input type="checkbox" name="q4" value="0" id="q4a" /><label for="q4a"
+            >HTML</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q4" value="1" id="q4b" /><label for="q4b"
+            >JavaScript</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q4" value="0" id="q4c" /><label for="q4c"
+            >CSS</label
+          >
+        </div>
+        <div>
+          <input type="checkbox" name="q4" value="1" id="q4d" /><label for="q4d"
+            >Python</label
+          >
+        </div>
+      </div>
+
+      <div class="question-block">
+        <p>5. Яка планета найбільша в Сонячній системі?</p>
+        <select id="q5">
+          <option value="" selected disabled>Оберіть відповідь...</option>
+          <option value="0">Земля</option>
+          <option value="0">Марс</option>
+          <option value="1">Юпітер</option>
+          <option value="0">Венера</option>
+        </select>
+      </div>
+
+      <div class="question-block">
+        <p>6. Оберіть парні числа (Оберіть 2)</p>
+        <select id="q6" multiple>
+          <option value="1">2</option>
+          <option value="0">5</option>
+          <option value="1">4</option>
+          <option value="0">7</option>
+        </select>
+      </div>
+
+      <div class="question-block">
+        <p>7. Скільки днів у тижні?</p>
+        <input type="text" id="q7" placeholder="Введіть число..." />
+      </div>
+
+      <button type="button" id="submit-btn" onclick="calculateResults()">
+        Завершити тестування
+      </button>
+    </form>
+
+    <div id="results-container"></div>
+
+    <script>
+      function calculateResults() {
+        const form = document.getElementById("test-form")
+        let totalScore = 0
+        const resultsData = []
+
+        // --- 1. Radio (q1) ---
+        const q1Checked = form.querySelector('input[name="q1"]:checked')
+        let q1Score = 0
+        let q1SelectedText = "Не обрано"
+        if (q1Checked) {
+          q1Score = parseInt(q1Checked.value)
+          q1SelectedText = form.querySelector(
+            'label[for="' + q1Checked.id + '"]'
+          ).textContent
+        }
+        totalScore += q1Score
+        resultsData.push({
+          question: "1. Столиця України?",
+          selected: q1SelectedText,
+          score: q1Score,
+        })
+
+        // --- 2. Radio (q2) ---
+        const q2Checked = form.querySelector('input[name="q2"]:checked')
+        let q2Score = 0
+        let q2SelectedText = "Не обрано"
+        if (q2Checked) {
+          q2Score = parseInt(q2Checked.value)
+          q2SelectedText = form.querySelector(
+            'label[for="' + q2Checked.id + '"]'
+          ).textContent
+        }
+        totalScore += q2Score
+        resultsData.push({
+          question: "2. 2 + 2 = ?",
+          selected: q2SelectedText,
+          score: q2Score,
+        })
+
+        // --- 3. Checkbox (q3) ---
+        const q3Checkboxes = form.querySelectorAll('input[name="q3"]:checked')
+        let q3Score = 0
+        let q3SelectedText = []
+        let q3SelectedCount = q3Checkboxes.length
+
+        if (q3SelectedCount === 3 || q3SelectedCount === 4) {
+          q3Score = 0
+        } else {
+          q3Checkboxes.forEach((cb) => {
+            q3Score += parseInt(cb.value)
+            q3SelectedText.push(
+              form.querySelector('label[for="' + cb.id + '"]').textContent
+            )
+          })
+        }
+        let q3SelectedTextStr =
+          q3SelectedText.length > 0 ? q3SelectedText.join(", ") : "Не обрано"
+        totalScore += q3Score
+        resultsData.push({
+          question: "3. Які з цих тварин є ссавцями?",
+          selected: q3SelectedTextStr,
+          score: q3Score,
+        })
+
+        // --- 4. Checkbox (q4) ---
+        const q4Checkboxes = form.querySelectorAll('input[name="q4"]:checked')
+        let q4Score = 0
+        let q4SelectedText = []
+        let q4SelectedCount = q4Checkboxes.length
+
+        if (q4SelectedCount > 2) {
+          q4Score = 0
+        } else {
+          q4Checkboxes.forEach((cb) => {
+            q4Score += parseInt(cb.value)
+            q4SelectedText.push(
+              form.querySelector('label[for="' + cb.id + '"]').textContent
+            )
+          })
+        }
+        let q4SelectedTextStr =
+          q4SelectedText.length > 0 ? q4SelectedText.join(", ") : "Не обрано"
+        totalScore += q4Score
+        resultsData.push({
+          question: "4. Які з цих мов є мовами програмування?",
+          selected: q4SelectedTextStr,
+          score: q4Score,
+        })
+
+        // --- 5. Select (Single) (q5) ---
+        const q5Select = form.querySelector("#q5")
+        let q5Score = 0
+        let q5SelectedText = "Не обрано"
+        if (q5Select.value !== "") {
+          q5Score = parseInt(q5Select.value)
+          q5SelectedText = q5Select.options[q5Select.selectedIndex].text
+        }
+        totalScore += q5Score
+        resultsData.push({
+          question: "5. Яка планета найбільша?",
+          selected: q5SelectedText,
+          score: q5Score,
+        })
+
+        // --- 6. Select (Multiple) (q6) ---
+        const q6Select = form.querySelector("#q6")
+        const q6SelectedOptions = Array.from(q6Select.selectedOptions)
+        let q6Score = 0
+        let q6SelectedText = []
+        let q6SelectedCount = q6SelectedOptions.length
+
+        if (q6SelectedCount > 2) {
+          q6Score = 0
+        } else {
+          q6SelectedOptions.forEach((opt) => {
+            q6Score += parseInt(opt.value)
+            q6SelectedText.push(opt.text)
+          })
+        }
+        let q6SelectedTextStr =
+          q6SelectedText.length > 0 ? q6SelectedText.join(", ") : "Не обрано"
+        totalScore += q6Score
+        resultsData.push({
+          question: "6. Оберіть парні числа",
+          selected: q6SelectedTextStr,
+          score: q6Score,
+        })
+
+        // --- 7. Text (q7) ---
+        const q7Input = form.querySelector("#q7")
+        let q7Value = q7Input.value.trim()
+        let q7Score = q7Value === "7" ? 1 : 0
+        let q7SelectedText = q7Value === "" ? "Не введено" : q7Value
+        totalScore += q7Score
+        resultsData.push({
+          question: "7. Скільки днів у тижні?",
+          selected: q7SelectedText,
+          score: q7Score,
+        })
+
+        displayResults(resultsData, totalScore)
+      }
+
+      function displayResults(results, total) {
+        const resultsContainer = document.getElementById("results-container")
+
+        let tableHTML = `
+                <h2>Результати тестування</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Запитання</th>
+                            <th>Ваша відповідь</th>
+                            <th>Бал</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `
+
+        results.forEach((result) => {
+          tableHTML += `
+                    <tr>
+                        <td>${result.question}</td>
+                        <td>${result.selected}</td>
+                        <td>${result.score}</td>
+                    </tr>
+                `
+        })
+
+        tableHTML += `
+                    </tbody>
+                </table>
+                <h3>Загальний бал: ${total}</h3>
+            `
+
+        resultsContainer.innerHTML = tableHTML
+      }
+    </script>
+  </body>
+</html>
