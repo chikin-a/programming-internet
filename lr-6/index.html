@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAB 6</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 500px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input {
+        width: 60%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+      }
+      .status-message {
+        margin-left: 10px;
+        font-size: 0.9em;
+      }
+
+      .valid {
+        border: 2px solid green !important;
+      }
+      .valid-text {
+        color: green;
+        font-weight: bold;
+      }
+
+      .invalid {
+        border: 2px solid red !important;
+        color: red;
+      }
+      .error-text {
+        color: red;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Реєстрація</h2>
+      <form id="userForm" onsubmit="return false;">
+        <div class="form-group">
+          <label for="email">E-mail (тільки @pnu.edu.ua):</label>
+          <input type="text" id="email" placeholder="student@pnu.edu.ua" />
+          <span id="email_msg" class="status-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="fullname">Ім'я та Прізвище:</label>
+          <small style="display: block; color: gray; margin-bottom: 5px"
+            >(Приклад: Ivan PETRENKO або Іван ПЕТРЕНКО)</small
+          >
+          <input type="text" id="fullname" placeholder="Іван ПЕТРЕНКО" />
+          <span id="fullname_msg" class="status-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="login">Логін (тільки латина):</label>
+          <input type="text" id="login" placeholder="userlogin" />
+          <span id="login_msg" class="status-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Пароль:</label>
+          <input
+            type="text"
+            id="password"
+            placeholder="Min 8 симв., 1 букв, 1 цифра..."
+          />
+          <span id="password_msg" class="status-message"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="zipcode">Поштовий індекс (5 цифр):</label>
+          <input type="text" id="zipcode" placeholder="76000" />
+          <span id="zipcode_msg" class="status-message"></span>
+        </div>
+
+        <button type="button" onclick="validateForm()">Перевірити</button>
+      </form>
+    </div>
+
+    <script>
+      function validateForm() {
+        checkInput(
+          "email",
+          /^.+@pnu\.edu\.ua$/,
+          "Має закінчуватись на @pnu.edu.ua"
+        )
+
+        const nameRegex = /^[A-ZА-ЯІЇЄҐ][a-zа-яіїєґ]+\s[A-ZА-ЯІЇЄҐ]+$/
+        checkInput("fullname", nameRegex, 'Формат: "Ім\'я ПРІЗВИЩЕ"')
+
+        checkInput("login", /^[a-zA-Z]+$/, "Тільки латинські літери")
+
+        const passRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[_\-!@#$%^&*]).{8,}$/
+        checkInput(
+          "password",
+          passRegex,
+          "Мін. 8 символів, цифра, буква та спецсимвол"
+        )
+
+        checkInput("zipcode", /^\d{5}$/, "Тільки 5 цифр")
+      }
+
+      function checkInput(id, regex, errorMsg) {
+        let input = document.getElementById(id)
+        let msgSpan = document.getElementById(id + "_msg")
+        let value = input.value.trim()
+
+        input.classList.remove("valid", "invalid")
+        msgSpan.classList.remove("valid-text", "error-text")
+
+        if (regex.test(value)) {
+          input.classList.add("valid")
+          msgSpan.classList.add("valid-text")
+
+          msgSpan.innerHTML = "&#10004;"
+        } else {
+          input.classList.add("invalid")
+          msgSpan.classList.add("error-text")
+          msgSpan.innerText = errorMsg
+        }
+      }
+    </script>
+  </body>
+</html>
