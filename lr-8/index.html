@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAB 8</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .task {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+      h2 {
+        border-bottom: 2px solid #333;
+        padding-bottom: 5px;
+      }
+      .output {
+        background: #eef;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        border: 1px solid #dde;
+        min-height: 20px;
+      }
+      button {
+        cursor: pointer;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      input {
+        padding: 5px;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="task">
+      <h2>Завдання 1</h2>
+      <p>Поточний час об'єкта: <b id="t1-display">Loading...</b></p>
+      <input type="number" id="t1-seconds" placeholder="Секунди" />
+      <button onclick="task1_addSeconds()">Додати секунди</button>
+      <div id="t1-log" class="output"></div>
+    </div>
+
+    <div class="task">
+      <h2>Завдання 2</h2>
+
+      <p>Завдання 2.1. Виведення поточної дати, дня тижня і часу</p>
+      <button onclick="task2_1_showDate()">Виконати</button>
+      <div id="t2-1-output" class="output"></div>
+
+      <hr />
+
+      <p>Завдання 2.2. Останній день місяця</p>
+      <input type="number" id="t2-year" placeholder="Рік (2025)" value="2025" />
+      <input
+        type="number"
+        id="t2-month"
+        placeholder="Місяць (1-12)"
+        value="2"
+      />
+      <button onclick="task2_2_lastDay()">Дізнатися день</button>
+      <div id="t2-2-output" class="output"></div>
+
+      <hr />
+
+      <p>Завдання 2.3. Секунди сьогодні</p>
+      <button onclick="task2_3_seconds()">Розрахувати</button>
+      <div id="t2-3-output" class="output"></div>
+    </div>
+
+    <div class="task">
+      <h2>Завдання 3-6: Класи</h2>
+      <button onclick="runClassTasks()">Запустити</button>
+      <div id="class-output" class="output" style="white-space: pre-line">
+        Натисніть кнопку для виведення результатів...
+      </div>
+    </div>
+
+    <script>
+      // ==========================================
+      // ЗАВДАННЯ 1
+      // ==========================================
+      const myTime = {
+        hours: 20,
+        minutes: 30,
+        seconds: 45,
+
+        // 1.1
+        toString: function () {
+          const h = String(this.hours).padStart(2, "0")
+          const m = String(this.minutes).padStart(2, "0")
+          const s = String(this.seconds).padStart(2, "0")
+          return `${h}:${m}:${s}`
+        },
+
+        // 1.2
+        addSeconds: function (sec) {
+          let totalSeconds =
+            this.hours * 3600 + this.minutes * 60 + this.seconds
+
+          totalSeconds += sec
+
+          this.hours = Math.floor(totalSeconds / 3600) % 24
+          this.minutes = Math.floor((totalSeconds % 3600) / 60)
+          this.seconds = totalSeconds % 60
+        },
+      }
+
+      function updateTimeDisplay() {
+        document.getElementById("t1-display").innerText = myTime.toString()
+      }
+      updateTimeDisplay()
+
+      function task1_addSeconds() {
+        const input = document.getElementById("t1-seconds")
+        const val = parseInt(input.value)
+        if (!isNaN(val)) {
+          myTime.addSeconds(val)
+          updateTimeDisplay()
+          document.getElementById("t1-log").innerHTML = `Додано ${val} секунд.`
+        } else {
+          alert("Введіть число!")
+        }
+      }
+
+      // ==========================================
+      // ЗАВДАННЯ 2
+      // ==========================================
+
+      // 2.1
+      function task2_1_showDate() {
+        const now = new Date()
+
+        const optionsDate = { year: "numeric", month: "long", day: "numeric" }
+        const optionsDay = { weekday: "long" }
+        const optionsTime = { hour: "2-digit", minute: "2-digit" }
+
+        const dateStr = now.toLocaleDateString("uk-UA", optionsDate)
+        const dayStr = now.toLocaleDateString("uk-UA", optionsDay)
+        const timeStr = now.toLocaleTimeString("uk-UA", optionsTime)
+
+        const output = `
+                Дата: ${dateStr} <br>
+                День тижня: ${dayStr} <br>
+                Час: ${timeStr}
+            `
+        document.getElementById("t2-1-output").innerHTML = output
+      }
+
+      // 2.2
+      function task2_2_lastDay() {
+        const y = parseInt(document.getElementById("t2-year").value)
+        const m = parseInt(document.getElementById("t2-month").value)
+
+        const date = new Date(y, m, 0)
+        const lastDay = date.getDate()
+
+        document.getElementById(
+          "t2-2-output"
+        ).innerText = `Останній день ${m}-го місяця ${y} року: ${lastDay}`
+      }
+
+      // 2.3
+      function task2_3_seconds() {
+        const getSecondsData = () => {
+          const now = new Date()
+          const startOfDay = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+          )
+          const startOfNextDay = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1
+          )
+
+          const passed = Math.floor((now - startOfDay) / 1000)
+          const left = Math.floor((startOfNextDay - now) / 1000)
+
+          return {
+            secondsPassed: passed,
+            secondsLeft: left,
+          }
+        }
+
+        const res = getSecondsData()
+        document.getElementById("t2-3-output").innerHTML =
+          `Пройшло від початку дня: <b>${res.secondsPassed}</b> сек.<br>` +
+          `Залишилось до кінця дня: <b>${res.secondsLeft}</b> сек.`
+      }
+
+      // ==========================================
+      // ЗАВДАННЯ 3, 4, 5, 6
+      // ==========================================
+
+      // Завдання 3
+      class Car {
+        constructor(brand, model, year) {
+          this.brand = brand
+          this.model = model
+          this.year = year
+        }
+
+        info() {
+          return `Авто: ${this.brand} ${this.model}, ${this.year} року.`
+        }
+      }
+
+      // Завдання 4
+      class ElectricCar extends Car {
+        constructor(brand, model, year, battery) {
+          super(brand, model, year)
+          this.battery = battery
+        }
+
+        charge() {
+          return `${this.brand} ${this.model} заряджається... Батарея: ${this.battery} kWh`
+        }
+      }
+
+      // Завдання 5
+      class MathHelper {
+        static add(a, b) {
+          return a + b
+        }
+      }
+
+      // Завдання 6
+      class Rectangle {
+        constructor(width, height) {
+          this.width = width
+          this.height = height
+        }
+        getArea() {
+          return this.width * this.height
+        }
+        getPerimeter() {
+          return 2 * (this.width + this.height)
+        }
+      }
+
+      class Square extends Rectangle {
+        constructor(side) {
+          super(side, side)
+        }
+
+        isSquare() {
+          return this.width === this.height
+        }
+      }
+
+      function runClassTasks() {
+        const out = document.getElementById("class-output")
+        out.innerHTML = ""
+
+        // 3.
+        out.innerHTML += "<b>--- Завдання 3 (Car) ---</b><br>"
+        const car1 = new Car("Toyota", "Camry", 2020)
+        out.innerHTML += car1.info() + "<br><br>"
+
+        // 4.
+        out.innerHTML += "<b>--- Завдання 4 (ElectricCar) ---</b><br>"
+        const tesla = new ElectricCar("Tesla", "Model 3", 2022, 75)
+        out.innerHTML += tesla.info() + "<br>"
+        out.innerHTML += tesla.charge() + "<br><br>"
+
+        // 5.
+        out.innerHTML += "<b>--- Завдання 5 (MathHelper) ---</b><br>"
+        out.innerHTML += `MathHelper.add(5, 7) = ${MathHelper.add(
+          5,
+          7
+        )}<br><br>`
+
+        // 6.
+        out.innerHTML += "<b>--- Завдання 6 (Rectangle) ---</b><br>"
+        const rect = new Rectangle(10, 5)
+        out.innerHTML += `Прямокутник (10x5): Площа = ${rect.getArea()}, Периметр = ${rect.getPerimeter()}<br>`
+
+        const sq = new Square(7)
+        out.innerHTML += `Квадрат (сторона 7): Площа = ${sq.getArea()}, Периметр = ${sq.getPerimeter()}<br>`
+        out.innerHTML += `Чи рівні сторони (isSquare)? ${
+          sq.isSquare() ? "Так" : "Ні"
+        }`
+      }
+    </script>
+  </body>
+</html>
