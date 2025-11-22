@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LAB 7</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      .task-card {
+        background: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      h3 {
+        margin-top: 0;
+        color: #333;
+      }
+      input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+        width: 200px;
+      }
+      input.short {
+        width: 80px;
+      }
+      button {
+        padding: 8px 15px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      .result {
+        margin-top: 10px;
+        font-weight: bold;
+        color: #0056b3;
+        min-height: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="task-card">
+      <h3>1. Довжина рядка</h3>
+      <label>Введіть рядок:</label>
+      <input type="text" id="inp1" />
+      <button onclick="task1()">Порахувати</button>
+      <div class="result" id="res1"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>2. Верхній та нижній регістр</h3>
+      <label>Введіть рядок:</label>
+      <input type="text" id="inp2" />
+      <button onclick="task2()">Конвертувати</button>
+      <div class="result" id="res2"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>3. Пошук індексу символу</h3>
+      <label>Рядок:</label>
+      <input type="text" id="inp3-str" />
+      <label>Символ:</label>
+      <input type="text" id="inp3-char" class="short" maxlength="1" />
+      <button onclick="task3()">Знайти індекс</button>
+      <div class="result" id="res3"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>4. Кількість входжень символу</h3>
+      <label>Рядок:</label>
+      <input type="text" id="inp4-str" value="hello world" />
+      <label>Символ:</label>
+      <input type="text" id="inp4-char" class="short" maxlength="1" />
+      <button onclick="task4()">Рахувати</button>
+      <div class="result" id="res4"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>5. Заміна сусідніх символів</h3>
+      <label>Введіть рядок (напр. abcdef):</label>
+      <input type="text" id="inp5" />
+      <button onclick="task5()">Змінити місцями</button>
+      <div class="result" id="res5"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>6. Перевірка на спам</h3>
+      <label>Текст повідомлення:</label>
+      <input type="text" id="inp6" style="width: 300px" />
+      <button onclick="task6()">Перевірити</button>
+      <div class="result" id="res6"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>7. Скорочення рядка (Truncate)</h3>
+      <label>Рядок:</label>
+      <input type="text" id="inp7-str" value="Hello, world!" />
+      <label>Макс. довжина:</label>
+      <input type="number" id="inp7-len" class="short" value="8" />
+      <button onclick="task7()">Скоротити</button>
+      <div class="result" id="res7"></div>
+    </div>
+
+    <hr />
+    <h2>Завдання за варіантами</h2>
+
+    <div class="task-card">
+      <h3>8. Видалити голосні</h3>
+      <label>Рядок (English):</label>
+      <input type="text" id="inp8" value="Hello, World!" />
+      <button onclick="task8()">Видалити</button>
+      <div class="result" id="res8"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>9. Заміна "JavaScript" на "JS"</h3>
+      <label>Рядок:</label>
+      <input type="text" id="inp9" value="I love JavaScript programming" />
+      <button onclick="task9()">Замінити</button>
+      <div class="result" id="res9"></div>
+    </div>
+
+    <div class="task-card">
+      <h3>10. Паліндром у підрядку (> 3 симв.)</h3>
+      <label>Рядок (напр. abcbad):</label>
+      <input type="text" id="inp10" />
+      <button onclick="task10()">Перевірити</button>
+      <div class="result" id="res10"></div>
+    </div>
+
+    <script>
+      // --- Завдання 1 ---
+      function task1() {
+        const str = document.getElementById("inp1").value
+        document.getElementById("res1").textContent = `Довжина: ${str.length}`
+      }
+
+      // --- Завдання 2 ---
+      function task2() {
+        const str = document.getElementById("inp2").value
+        document.getElementById(
+          "res2"
+        ).innerHTML = `UPPER: ${str.toUpperCase()} <br> lower: ${str.toLowerCase()}`
+      }
+
+      // --- Завдання 3 ---
+      function task3() {
+        const str = document.getElementById("inp3-str").value
+        const char = document.getElementById("inp3-char").value
+        const index = str.indexOf(char)
+        document.getElementById("res3").textContent = `Індекс: ${index}`
+      }
+
+      // --- Завдання 4 ---
+      function task4() {
+        const str = document.getElementById("inp4-str").value
+        const char = document.getElementById("inp4-char").value
+
+        if (!char) {
+          document.getElementById("res4").textContent =
+            "Введіть символ для пошуку"
+          return
+        }
+
+        const count = str.split(char).length - 1
+        document.getElementById(
+          "res4"
+        ).textContent = `Кількість входжень "${char}": ${count}`
+      }
+
+      // --- Завдання 5 ---
+      function task5() {
+        const str = document.getElementById("inp5").value
+        let result = ""
+        for (let i = 0; i < str.length; i += 2) {
+          if (i + 1 < str.length) {
+            result += str[i + 1] + str[i]
+          } else {
+            result += str[i]
+          }
+        }
+        document.getElementById("res5").textContent = result
+      }
+
+      // --- Завдання 6 ---
+      function task6() {
+        const str = document.getElementById("inp6").value.toLowerCase()
+        const spamWords = [
+          "100% безкоштовно",
+          "збільшення продажів",
+          "тільки сьогодні",
+          "не видаляйте",
+        ]
+
+        const isSpam = spamWords.some((spam) => str.includes(spam))
+
+        document.getElementById("res6").textContent = isSpam
+          ? "Це СПАМ! (true)"
+          : "Спаму не виявлено (false)"
+        document.getElementById("res6").style.color = isSpam ? "red" : "green"
+      }
+
+      // --- Завдання 7 ---
+      function task7() {
+        const str = document.getElementById("inp7-str").value
+        const maxLen = parseInt(document.getElementById("inp7-len").value)
+
+        let result
+        if (str.length > maxLen) {
+          result = str.substring(0, maxLen - 3) + "..."
+        } else {
+          result = str
+        }
+        document.getElementById("res7").textContent = result
+      }
+
+      // --- Завдання 8 ---
+      function task8() {
+        const str = document.getElementById("inp8").value
+        const result = str.replace(/[aeiou]/gi, "")
+        document.getElementById("res8").textContent = result
+      }
+
+      // --- Завдання 9 ---
+      function task9() {
+        const str = document.getElementById("inp9").value
+        const result = str.replaceAll("JavaScript", "JS")
+        document.getElementById("res9").textContent = result
+      }
+
+      // --- Завдання 10 ---
+      function task10() {
+        const str = document.getElementById("inp10").value
+        let found = false
+
+        for (let i = 0; i < str.length; i++) {
+          for (let j = i + 3; j <= str.length; j++) {
+            let sub = str.substring(i, j)
+
+            let reversed = sub.split("").reverse().join("")
+
+            if (sub === reversed) {
+              found = true
+              break
+            }
+          }
+          if (found) break
+        }
+
+        document.getElementById("res10").textContent = found
+          ? "true (Знайдено паліндром > 2 символів)"
+          : "false"
+      }
+    </script>
+  </body>
+</html>
