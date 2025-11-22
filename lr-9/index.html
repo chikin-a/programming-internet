@@ -140,13 +140,11 @@
       let t1_isRunning = false
 
       function animateTask1() {
-        t1_pos += 3 * t1_direction // Швидкість 3px
+        t1_pos += 3 * t1_direction 
         box.style.left = t1_pos + "px"
 
-        // Перевірка меж
         if (t1_pos >= container1.clientWidth - 50 || t1_pos <= 0) {
           t1_direction *= -1
-          // Випадковий колір при ударі
           box.style.backgroundColor =
             t1_direction === 1 ? "crimson" : "royalblue"
         }
@@ -252,3 +250,4 @@
     </script>
   </body>
 </html>
+
