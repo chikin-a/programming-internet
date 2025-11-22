@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAB 9</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+
+      h2 {
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+        margin-top: 40px;
+      }
+
+      #container1 {
+        width: 100%;
+        max-width: 800px;
+        height: 150px;
+        background-color: #fff;
+        position: relative;
+        border: 2px solid #333;
+        margin-bottom: 20px;
+        overflow: hidden;
+      }
+      #box {
+        width: 50px;
+        height: 50px;
+        background-color: crimson;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        border-radius: 4px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      button.btn-control {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+      button.btn-control:hover {
+        background-color: #555;
+      }
+
+      #scene {
+        width: 100%;
+        max-width: 800px;
+        height: 400px;
+        border: 4px double #4caf50;
+        position: relative;
+        cursor: pointer;
+        background: #1a1a1a;
+        overflow: hidden;
+        user-select: none;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        color: white;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      #logo-symbol {
+        position: absolute;
+        font-size: 50px;
+        font-weight: bold;
+        color: #4caf50;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+        text-shadow: 0 0 10px #4caf50;
+        z-index: 2;
+        white-space: nowrap;
+      }
+
+      #logo-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        bottom: 20%;
+        font-size: 18px;
+        color: #fff;
+        z-index: 2;
+      }
+
+      .particle {
+        position: absolute;
+        color: rgba(76, 175, 80, 0.4);
+        font-size: 12px;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      #status2 {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 12px;
+        color: gray;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 2px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>Завдання 1</h2>
+
+      <div id="container1">
+        <div id="box"></div>
+      </div>
+      <button class="btn-control" onclick="toggleTask1()">Старт / Стоп</button>
+    </section>
+
+    <section>
+      <h2>Завдання 2</h2>
+
+      <div id="scene">
+        <div id="status2">Статус: PAUSED</div>
+        <div id="logo-symbol">{ IPZ }</div>
+        <div id="logo-text"></div>
+      </div>
+    </section>
+
+    <script>
+      //  ЗАВДАННЯ №1
+      const box = document.getElementById("box")
+      const container1 = document.getElementById("container1")
+
+      let t1_pos = 0
+      let t1_direction = 1
+      let t1_frameId = null
+      let t1_isRunning = false
+
+      function animateTask1() {
+        t1_pos += 3 * t1_direction // Швидкість 3px
+        box.style.left = t1_pos + "px"
+
+        // Перевірка меж
+        if (t1_pos >= container1.clientWidth - 50 || t1_pos <= 0) {
+          t1_direction *= -1
+          // Випадковий колір при ударі
+          box.style.backgroundColor =
+            t1_direction === 1 ? "crimson" : "royalblue"
+        }
+
+        if (t1_isRunning) {
+          t1_frameId = requestAnimationFrame(animateTask1)
+        }
+      }
+
+      function toggleTask1() {
+        if (!t1_isRunning) {
+          t1_isRunning = true
+          animateTask1()
+        } else {
+          t1_isRunning = false
+          cancelAnimationFrame(t1_frameId)
+        }
+      }
+
+      //  ЗАВДАННЯ №2
+      const scene = document.getElementById("scene")
+      const logoSymbol = document.getElementById("logo-symbol")
+      const logoText = document.getElementById("logo-text")
+      const statusLabel = document.getElementById("status2")
+
+      const fullText = "Інженерія програмного забезпечення"
+
+      let t2_isActive = false
+      let t2_frameId
+      let t2_time = 0
+      let t2_textIndex = 0
+      let t2_textTimer = 0
+
+      function animateTask2() {
+        if (!t2_isActive) return
+
+        t2_time += 0.04
+
+        // 1. Пульсація + колір
+        let scale = 1 + Math.sin(t2_time * 3) * 0.15
+        logoSymbol.style.transform = `translate(-50%, -50%) scale(${scale})`
+        logoSymbol.style.filter = `hue-rotate(${t2_time * 30}deg)`
+
+        // 2. Рух
+        let centerX = scene.clientWidth / 2
+        let centerY = scene.clientHeight * 0.4
+
+        let offsetX = Math.sin(t2_time) * 80
+        let offsetY = Math.cos(t2_time * 2) * 40
+
+        logoSymbol.style.left = centerX + offsetX + "px"
+        logoSymbol.style.top = centerY + offsetY + "px"
+
+        // 3. Друк
+        t2_textTimer++
+        if (t2_textTimer % 4 === 0) {
+          if (t2_textIndex <= fullText.length) {
+            logoText.innerText = fullText.substring(0, t2_textIndex) + "_"
+            t2_textIndex++
+          } else {
+            if (t2_textTimer % 150 === 0) t2_textIndex = 0
+          }
+        }
+
+        if (Math.random() < 0.15) createParticle()
+        updateParticles()
+
+        t2_frameId = requestAnimationFrame(animateTask2)
+      }
+
+      function createParticle() {
+        const p = document.createElement("div")
+        p.classList.add("particle")
+        p.innerText = Math.random() > 0.5 ? "1" : "0"
+        p.style.left = Math.random() * scene.clientWidth + "px"
+        p.style.top = scene.clientHeight + "px"
+        scene.appendChild(p)
+      }
+
+      function updateParticles() {
+        const particles = document.querySelectorAll(".particle")
+        particles.forEach((p) => {
+          let top = parseFloat(p.style.top)
+          top -= 1.5
+          p.style.top = top + "px"
+          if (top < -20) p.remove()
+        })
+      }
+
+      scene.addEventListener("click", () => {
+        t2_isActive = !t2_isActive
+
+        if (t2_isActive) {
+          statusLabel.innerText = "Статус: ACTIVE"
+          statusLabel.style.color = "#4caf50"
+          animateTask2()
+        } else {
+          statusLabel.innerText = "Статус: PAUSED"
+          statusLabel.style.color = "gray"
+          cancelAnimationFrame(t2_frameId)
+        }
+      })
+    </script>
+  </body>
+</html>
