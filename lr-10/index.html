@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAB 10</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      .container {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+
+      .hover-style {
+        background-color: yellow;
+        color: red;
+        font-weight: bold;
+        border: 2px dashed orange;
+      }
+
+      .click-style {
+        border: 3px solid blue;
+        background-color: lightskyblue;
+      }
+
+      .box {
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: #f0f0f0;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #image-container {
+        margin: 10px 0;
+        position: relative;
+      }
+      #hidden-image {
+        display: none;
+        max-width: 200px;
+        cursor: pointer;
+        border: 1px solid #333;
+      }
+      #image-tooltip {
+        display: none;
+        position: absolute;
+        background: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        top: -30px;
+        left: 0;
+      }
+
+      span.error-msg {
+        color: red;
+        font-weight: bold;
+        display: none;
+      }
+    </style>
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(document).ready(function () {
+        var $text = $("#hide_text")
+        $text.hide()
+        $(".button-toggle").click(function () {
+          $text.show(200)
+        })
+
+        // ЗАВДАННЯ 1
+        $("p:first").text("DOM first! (Змінено через jQuery)")
+        jQuery("p:last").text("DOM last! (Змінено через jQuery)")
+
+        $("#hover-div").hover(
+          function () {
+            $(this).addClass("hover-style")
+            $(this).text("Мишка наведена!")
+          },
+          function () {
+            $(this).removeClass("hover-style")
+            $(this).text("Наведіть мишку сюди")
+          }
+        )
+
+        // ЗАВДАННЯ 2
+        $("#click-div").bind("click", function () {
+          $(this).addClass("click-style")
+          $(this).text("Вибрано (Одинарний клік)")
+        })
+
+        $("#click-div").bind("dblclick", function () {
+          $(this).removeClass("click-style")
+          $(this).text("Скинуто (Подвійний клік)")
+        })
+
+        $("#btn-single").bind("click", function () {
+          alert("Одинарний клік")
+        })
+
+        $("#btn-double").bind("dblclick", function () {
+          alert("Подвійний клік")
+        })
+
+        $("#show-img-link").click(function (e) {
+          e.preventDefault()
+          $("#hidden-image").show()
+        })
+
+        $("#hidden-image").click(function () {
+          $(this).hide()
+        })
+
+        $("#hidden-image").mouseover(function () {
+          $("#image-tooltip").text("Це гарний краєвид!").show()
+        })
+
+        $("#hidden-image").mouseout(function () {
+          $("#image-tooltip").hide()
+        })
+
+        $("form").submit(function () {
+          var inputVal = $("input:first").val()
+
+          if (inputVal === "correct") {
+            $("span.error-msg").hide()
+            return true
+          }
+
+          $("span.error-msg").text("Неправильно!").show().fadeOut(2000)
+          return false
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Завдання 1</h2>
+      <p>Це перший абзац (тут зміниться текст).</p>
+
+      <a href="#" class="button-toggle"
+        >Натисніть, щоб показати текст (з прикладу)</a
+      >
+      <div id="hide_text">Демонстраційний прихований текст</div>
+
+      <div id="hover-div" class="box">Наведіть мишку сюди</div>
+
+      <p>Це просто абзац посередині.</p>
+    </div>
+
+    <div class="container">
+      <h2>Завдання 2</h2>
+
+      <div id="click-div" class="box">Клікни мене (1 або 2 рази)</div>
+      <br />
+
+      <button id="btn-single">Одинарний клік</button>
+      <button id="btn-double">Подвійний клік</button>
+      <br /><br />
+
+      <a href="#" id="show-img-link">Показати зображення</a>
+      <div id="image-container">
+        <div id="image-tooltip"></div>
+
+        <img
+          id="hidden-image"
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+          alt="Краєвид"
+        />
+      </div>
+      <br />
+
+      <p>Введіть в текстове поле слово 'correct'.</p>
+      <form action="javascript:alert('Успішно!');">
+        <div>
+          <input type="text" placeholder="Введіть слово..." />
+          <input type="submit" value="Перевірити" />
+        </div>
+      </form>
+      <span class="error-msg"></span>
+    </div>
+
+    <p>Це останній абзац (тут зміниться текст).</p>
+  </body>
+</html>
