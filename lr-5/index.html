@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="uk" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simplified Google Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Roboto", "Helvetica", "Arial", "sans-serif"],
+            },
+            colors: {
+              googleBlue: "#1a73e8",
+            },
+          },
+        },
+      }
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-gray-100 dark:bg-[#121212] flex items-center justify-center min-h-screen font-sans text-sm transition-colors duration-300"
+  >
+    <div
+      class="w-full max-w-md bg-white dark:bg-[#1e1e1e] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mx-4 flex flex-col min-h-[400px]"
+    >
+      <div class="px-6 py-5 flex items-center justify-between">
+        <div>
+          <h1 class="text-xl text-gray-900 dark:text-gray-100 font-normal">
+            Browse Site
+          </h1>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            onclick="toggleTheme()"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 block dark:hidden"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              ></path>
+            </svg>
+            <svg
+              class="w-5 h-5 hidden dark:block"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+          </button>
+
+          <button
+            onclick="toggleMenu()"
+            class="md:hidden w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 transition-colors"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="relative">
+        <nav
+          id="nav-menu"
+          class="hidden md:flex px-6 border-b border-gray-200 dark:border-gray-700 space-x-6 flex-col md:flex-row absolute md:static bg-white dark:bg-[#1e1e1e] w-full z-10 py-2 md:py-0 shadow-lg md:shadow-none"
+        >
+          <button
+            onclick="openTab(event, 'archives')"
+            class="tab-btn active text-googleBlue border-b-2 border-googleBlue pb-3 font-medium transition-colors text-left md:text-center px-2 md:px-0"
+          >
+            Archives
+          </button>
+
+          <button
+            onclick="openTab(event, 'topics')"
+            class="tab-btn text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-3 font-medium border-b-2 border-transparent transition-colors text-left md:text-center px-2 md:px-0"
+          >
+            Topics
+          </button>
+
+          <button
+            onclick="openTab(event, 'pages')"
+            class="tab-btn text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-3 font-medium border-b-2 border-transparent transition-colors text-left md:text-center px-2 md:px-0"
+          >
+            Pages
+          </button>
+        </nav>
+      </div>
+
+      <div class="flex-1 bg-white dark:bg-[#1e1e1e] relative">
+        <div id="archives" class="tab-content py-2">
+          <ul class="flex flex-col">
+            <li
+              onclick="openModal('HTML Tutorials')"
+              class="flex justify-between items-center px-6 py-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0"
+            >
+              <span class="text-gray-700 dark:text-gray-200 text-[15px]"
+                >HTML Tutorials</span
+              >
+              <span
+                class="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#2c2c2c] px-2 py-1 rounded"
+                >6</span
+              >
+            </li>
+
+            <li
+              onclick="openModal('CSS Techniques')"
+              class="flex justify-between items-center px-6 py-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0"
+            >
+              <span class="text-gray-700 dark:text-gray-200 text-[15px]"
+                >CSS Techniques</span
+              >
+              <span
+                class="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#2c2c2c] px-2 py-1 rounded"
+                >2</span
+              >
+            </li>
+
+            <li
+              onclick="openModal('Site Skills')"
+              class="flex justify-between items-center px-6 py-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0"
+            >
+              <span class="text-gray-700 dark:text-gray-200 text-[15px]"
+                >Site Skills</span
+              >
+              <span
+                class="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-[#2c2c2c] px-2 py-1 rounded"
+                >13</span
+              >
+            </li>
+
+            <li
+              class="flex justify-between items-center px-6 py-4 opacity-50 cursor-not-allowed border-b border-gray-100 dark:border-gray-800 last:border-0"
+            >
+              <span class="text-gray-700 dark:text-gray-200 text-[15px]"
+                >Flash</span
+              >
+              <span
+                class="text-xs font-medium text-gray-400 bg-transparent px-2 py-1"
+                >0</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div
+          id="topics"
+          class="tab-content hidden flex items-center justify-center h-full min-h-[200px]"
+        >
+          <p class="text-gray-400 dark:text-gray-500 text-sm">
+            No topics available
+          </p>
+        </div>
+
+        <div
+          id="pages"
+          class="tab-content hidden flex items-center justify-center h-full min-h-[200px]"
+        >
+          <p class="text-gray-400 dark:text-gray-500 text-sm">No pages found</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="fixed inset-0 z-50 hidden">
+      <div
+        class="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm transition-opacity"
+        onclick="closeModal()"
+      ></div>
+
+      <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div
+          class="w-full max-w-sm bg-white dark:bg-[#252525] rounded-lg shadow-xl overflow-hidden transform transition-all"
+        >
+          <div class="px-6 py-6">
+            <h3
+              class="text-lg font-medium text-gray-900 dark:text-white mb-2"
+              id="modal-title"
+            >
+              Category Details
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              You selected:
+              <span
+                id="modal-category-name"
+                class="font-medium text-gray-800 dark:text-gray-200"
+              ></span
+              >.
+            </p>
+          </div>
+          <div
+            class="bg-gray-50 dark:bg-[#2c2c2c] px-6 py-3 flex justify-end gap-3"
+          >
+            <button
+              type="button"
+              class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors"
+              onclick="closeModal()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2 text-sm font-medium text-googleBlue hover:text-blue-700 transition-colors"
+              onclick="closeModal()"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function openTab(evt, tabName) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((c) => c.classList.add("hidden"))
+        document.getElementById(tabName).classList.remove("hidden")
+
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.className =
+            "tab-btn text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-3 font-medium border-b-2 border-transparent transition-colors text-left md:text-center px-2 md:px-0"
+        })
+
+        evt.currentTarget.className =
+          "tab-btn active text-googleBlue border-b-2 border-googleBlue pb-3 font-medium transition-colors text-left md:text-center px-2 md:px-0"
+
+        if (window.innerWidth < 768) {
+          document.getElementById("nav-menu").classList.add("hidden")
+          document.getElementById("nav-menu").classList.remove("flex")
+        }
+      }
+
+      function toggleTheme() {
+        document.documentElement.classList.toggle("dark")
+      }
+
+      function toggleMenu() {
+        const menu = document.getElementById("nav-menu")
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden")
+          menu.classList.add("flex")
+        } else {
+          menu.classList.add("hidden")
+          menu.classList.remove("flex")
+        }
+      }
+
+      function openModal(name) {
+        document.getElementById("modal-category-name").innerText = name
+        document.getElementById("modal").classList.remove("hidden")
+      }
+
+      function closeModal() {
+        document.getElementById("modal").classList.add("hidden")
+      }
+    </script>
+  </body>
+</html>
